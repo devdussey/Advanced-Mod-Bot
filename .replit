@@ -1,6 +1,5 @@
 entrypoint = "main.py"
-modules = ["python-3.10, discord.py, discord.ext"]
-
+modules = ["python-3.10"]
 
 hidden = [".pythonlibs"]
 
@@ -11,15 +10,3 @@ channel = "stable-23_05"
 run = ["python", "main.py"]
 deploymentTarget = "gce"
 ignorePorts = true
-
-[workflows]
-runButton = "Run Bot"
-
-[[workflows.workflow]]
-name = "Run Bot"
-author = 46985080
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "packager.installForLanguage"
-args = "python3"
