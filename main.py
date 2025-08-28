@@ -1,42 +1,55 @@
-# This code is based on the following example:
-# https://discordpy.readthedocs.io/en/stable/quickstart.html#a-minimal-bot
-
+import asyncio
 import os
 
 import discord
+from discord.ext import commands
+
+from utils.database import init_db
+
+# Get secrets from Replit's secrets manager (environment variables)
+TOKEN = os.getenv("DISCORD_TOKEN")
+guild_id_str = os.getenv("GUILD_ID")
+if guild_id_str is None:
+    raise ValueError("GUILD_ID environment variable not set.")
+GUILD_ID = int(guild_id_str)  # Replace with your server ID in secrets
 
 intents = discord.Intents.default()
+intents.members = True
 intents.message_content = True
 
-client = discord.Client(intents=intents)
+# Bot setup
+bot = commands.Bot(command_prefix="!", intents=intents)
 
 
-@client.event
+# Load cogs
+async def load_cogs():
+    await bot.load_extension("cogs.moderation")
+    await bot.load_extension("cogs.jail")
+    await bot.load_extension("cogs.autorole")
+    await bot.load_extension("cogs.logging")
+
+
+@bot.event
 async def on_ready():
-    print('We have logged in as {0.user}'.format(client))
+    print(f"✅ Logged in as {bot.user} (ID: {bot.user.id})")
+    print("------")
+
+    # Sync slash commands to a specific guild
+    try:
+        guild = discord.Object(id=GUILD_ID)
+        bot.tree.copy_global_to(guild=guild)
+        await bot.tree.sync(guild=guild)
+        print("✅ Slash commands synced.")
+    except Exception as e:
+        print(f"⚠️ Failed to sync commands: {e}")
 
 
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
+# Run bot
+async def main():
+    async with bot:
+        await init_db()  # Initialize SQLite tables
+        await load_cogs()
+        await bot.start(TOKEN)
 
-    if message.content.startswith('$hello'):
-        await message.channel.send('Hello!')
 
-
-try:
-  token = os.getenv("TOKEN") or ""
-  if token == "":
-    raise Exception("Please add your token to the Secrets pane.")
-  client.run(token)
-except discord.HTTPException as e:
-    if e.status == 429:
-        print(
-            "The Discord servers denied the connection for making too many requests"
-        )
-        print(
-            "Get help from https://stackoverflow.com/questions/66724687/in-discord-py-how-to-solve-the-error-for-toomanyrequests"
-        )
-    else:
-        raise e
+asyncio.run(main())

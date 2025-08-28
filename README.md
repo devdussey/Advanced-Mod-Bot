@@ -1,15 +1,41 @@
-# Python Discord Bot
+# Discord Advanced Moderation Bot
 
-This is a starting point for making your own Discord bot using Python and the [discordpy](https://discordpy.readthedocs.io/) library.
-Read [their getting-started guides](https://discordpy.readthedocs.io/en/stable/#getting-started) to get the most out of this template.
+An advanced moderation bot with:
+- Slash commands for moderation (ban, kick, mute, warn)
+- Jail system (dynamic jail role, with original roles restored)
+- Auto roles on member join
+- Neat embed logs
+- SQLite database persistence
 
-## Getting Started
+---
 
-To get set up, you'll need to follow [these bot account setup instructions](https://discordpy.readthedocs.io/en/stable/discord.html),
-and then copy the token for your bot and added it as a secret with the key of `TOKEN` in the "Secrets (Environment variables)" panel.
+## 🚀 Features
+- `/ban @user reason`
+- `/kick @user reason`
+- `/mute @user minutes reason`
+- `/warn @user reason` (saved to DB)
+- `/warnings @user` (check warnings)
+- `/setjailrole @role` → set jail role
+- `/jail @user reason` → jail user
+- `/unjail @user` → release user
+- `/setautorole @role` → add autorole
+- `/clearautoroles` → clear autoroles
+- `/setlogchannel #channel` → set log channel
 
-## FAQ
+---
 
-If you get the following error message while trying to start the server: `429 Too Many Requests` (accompanied by a lot of HTML code), 
-try the advice given in this Stackoverflow question:
-https://stackoverflow.com/questions/66724687/in-discord-py-how-to-solve-the-error-for-toomanyrequests
+## 🛠 Setup (Replit)
+1. Create a new Python Repl  
+2. Drag & drop all files from the `.zip` into the Repl  
+3. Open **Secrets Manager** in Replit (lock icon on left)  
+   - Add `DISCORD_TOKEN` → your bot token from Discord Developer Portal  
+   - Add `GUILD_ID` → your server’s ID (right click server > Copy ID)  
+4. Replit will auto-install dependencies from `requirements.txt`  
+5. Hit **Run** — your bot should go online ✅
+
+---
+
+## 🧑‍💻 Notes
+- SQLite database (`database.sqlite3`) persists in your Repl  
+- Use `/setjailrole`, `/setautorole`, `/setlogchannel` after first launch to configure  
+- Requires Discord’s **Message Content Intent** and **Server Members Intent** enabled in Developer Portal
