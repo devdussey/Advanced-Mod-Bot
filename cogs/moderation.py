@@ -51,12 +51,10 @@ class Moderation(commands.Cog):
         await interaction.response.send_message(embed=embed)
 
     # -----------------------------
-    # Mute command (timeout)
+    # Mute command
     # -----------------------------
     @app_commands.command(
-        name="mute",
-        description=
-        "Timeout a user for a set number of minutes (requires a reason).")
+        name="mute", description="Timeout a user for a set number of minutes.")
     @app_commands.checks.has_permissions(moderate_members=True)
     async def mute(self, interaction: discord.Interaction,
                    user: discord.Member, minutes: int, reason: str):
