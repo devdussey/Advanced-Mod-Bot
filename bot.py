@@ -7,7 +7,13 @@ from utils.database import init_db
 
 # Get secrets from environment (Replit Secrets Manager)
 TOKEN = os.getenv("DISCORD_TOKEN")
-GUILD_ID = int(os.getenv("GUILD_ID"))
+GUILD_ID = os.getenv("GUILD_ID")
+if GUILD_ID is None:
+    raise ValueError("GUILD_ID environment variable not set.")
+try:
+    GUILD_ID = int(GUILD_ID)
+except ValueError:
+    raise ValueError("GUILD_ID environment variable is not a valid integer.")
 
 intents = discord.Intents.default()
 intents.members = True
