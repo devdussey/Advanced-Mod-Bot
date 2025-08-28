@@ -1,6 +1,8 @@
-{ pkgs }: {
+{ pkgs }:
+{
   deps = [
+    pkgs.python3Packages.discordpy
   ];
-  env = {
+  env = {.env
   };
 }
