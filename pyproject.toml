@@ -9,6 +9,7 @@ readme = "README.md"
 python = "^3.10"
 discord-py = "^2.6.2"
 aiosqlite = "^0.21.0"
+discord-interactions = "0.4.0"
 
 
 [build-system]
