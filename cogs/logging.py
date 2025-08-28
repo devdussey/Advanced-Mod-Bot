@@ -41,12 +41,12 @@ class Logging(commands.Cog):
         if not log_channel:
             return
 
-        # If the response has an embed, forward it to logs
         try:
             if interaction.response.is_done():
-                # Get the last message sent by the bot in this interaction
-                channel = interaction.channel
-                history = [msg async for msg in channel.history(limit=5)]
+                # Fetch recent messages in the channel to find bot's embed
+                history = [
+                    msg async for msg in interaction.channel.history(limit=5)
+                ]
                 for msg in history:
                     if msg.author == self.bot.user and msg.embeds:
                         await log_channel.send(embed=msg.embeds[0])

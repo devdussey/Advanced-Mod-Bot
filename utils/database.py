@@ -103,3 +103,9 @@ async def get_setting(key: str):
                                   (key, ))
         row = await cursor.fetchone()
         return row[0] if row else None
+
+
+async def clear_warnings(user_id: int):
+    async with aiosqlite.connect(DB_NAME) as db:
+        await db.execute("DELETE FROM warnings WHERE user_id = ?", (user_id, ))
+        await db.commit()
